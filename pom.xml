@@ -4,7 +4,7 @@
 	<groupId>com.github.zw201913</groupId>
 	<artifactId>fileupload</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
