@@ -11,17 +11,11 @@ import java.util.Map.Entry;
 import java.util.UUID;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.github.zw201913.annotation.FileUpload;
@@ -36,21 +30,13 @@ import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-@Aspect
-@Order(10)
-@Component("com.github.zw201913.aspect.FileAspect")
 public class FileAspect {
 	
 	@Value("${fileSaveDir}")
 	private String fileSaveDir;
 
-	@Pointcut("execution(public * com.github.zw201913.controller.*.*.*(..))")
-	public void check() {
-
-	}
-
-	@Around("check()")
-	public Object arround(ProceedingJoinPoint pjp) throws Throwable {
+	
+	public Object upload(ProceedingJoinPoint pjp) throws Throwable {
 		log.debug("检查文件");
 		boolean autoSave = false;// 是否启用自动保存
 		boolean digest = false;// 是否对文件进行摘要

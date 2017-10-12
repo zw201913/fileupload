@@ -14,16 +14,17 @@
 
 	<context:property-placeholder location="classpath:config/config.properties" />
 
-    <mvc:annotation-driven/>
-	
+	<mvc:annotation-driven />
 
-	<context:component-scan base-package="com.github.zw201913.controller,com.github.zw201913.aspect" />
+
+	<context:component-scan
+		base-package="com.github.zw201913.controller,com.github.zw201913.aspect" />
 
 	<!-- spring mvc 能够访问静态内容 begin -->
 	<mvc:resources location="/assets/" mapping="/assets/**" />
 	<!-- spring mvc 能够访问静态内容 end -->
 
-	<mvc:default-servlet-handler/>
+	<mvc:default-servlet-handler />
 	<!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -38,6 +39,14 @@
 	<!-- 激活自动代理功能 -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
+	<bean id="fileAspect" class="com.github.zw201913.aspect.FileAspect"></bean>
+	<aop:config>
+		<aop:aspect id="time" ref="fileAspect">
+			<aop:pointcut id="fileuploadPointCut"
+				expression="execution(public * com.github.zw201913.controller.*.*.*(..))" />
+			<aop:around method="upload" pointcut-ref="fileuploadPointCut" />
+		</aop:aspect>
+	</aop:config>
 
 	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
 	<bean id="multipartResolver"
