@@ -3,11 +3,15 @@
 1. 只需要使用@FileUpload这个注解，就可以完成文件的上传存储。
 2. @FileUpload这个直接可以同时在方法和参数上使用，示例如下：
 
-  @ResponseBody
+        @ResponseBody
+  
 	@FileUpload(digest=true)
+	
 	@RequestMapping(value = "/fileUp1", method = RequestMethod.POST)
+	
 	public String bigFileUpload1(@RequestPart("param") Param param,
 			@RequestPart("files1") @FileUpload(digest=false)MultipartFile[] files1,  @RequestPart("files2") MultipartFile[] files2,   UploadResults result){
+			
       //实现业务
       
       }
