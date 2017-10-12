@@ -19,3 +19,17 @@
 
 
 4. 需要在配置文件中设置fileSaveDir文件保存路径，该配置文件需要通过spring mvc读入。
+
+5. 在spring mvc配置文件中配置切面
+
+
+       <bean id="fileAspect" class="com.github.zw201913.aspect.FileAspect"></bean>
+       <aop:config>
+          <aop:aspect id="time" ref="fileAspect">
+	   <aop:pointcut id="fileuploadPointCut"
+				expression="设置切面" />
+			<aop:around method="upload" pointcut-ref="fileuploadPointCut" />
+        </aop:aspect>
+        </aop:config>
+	
+
