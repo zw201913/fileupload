@@ -3,7 +3,8 @@ package com.github.zw201913.util;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import com.alibaba.druid.util.StringUtils;
+import org.springframework.util.StringUtils;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zw201913.common.UtilException;

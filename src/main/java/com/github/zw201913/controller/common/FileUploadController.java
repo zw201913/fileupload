@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.common.collect.Maps;
 import com.github.zw201913.annotation.FileUpload;
 import com.github.zw201913.common.ControllerException;
 import com.github.zw201913.common.UtilException;
@@ -49,20 +49,14 @@ public class FileUploadController {
 	/**
 	 * 
 	 * @param name
-	 *            文件名
-	 * @param total
-	 *            总片数
-	 * @param index
-	 *            当前片索引
-	 * @param shardSize
-	 *            每片大小
-	 * @param file
-	 *            当前片内容
+	 * @param sign
+	 * @param email
+	 * @param password
+	 * @param files
+	 * @param result
 	 * @return
-	 * @throws UtilException
 	 * @throws ControllerException
 	 */
-
 	@ResponseBody
 	@RequestMapping(value = "/fileUp", method = RequestMethod.POST)
 	public String bigFileUpload(@RequestParam("name") String name, @RequestParam("sign") String sign,
@@ -70,12 +64,12 @@ public class FileUploadController {
 			@RequestParam("file1") @FileUpload MultipartFile[] files, UploadResults result) throws ControllerException {
 		try {
 			List<FileSaveResult> list1 = result.getGroup("file1");
-			Map<String, Object> res = Maps.newHashMap();
+			Map<String, Object> res = new HashMap<>();
 			log.debug("-------------------name:  " + name + "------------");
 			log.debug("-------------------sign:  " + sign + "------------");
 			log.debug("-------------------email:  " + email + "------------");
 			log.debug("-------------------password:  " + password + "------------");
-			Map<String, String> params = Maps.newHashMap();
+			Map<String, String> params = new HashMap<>();
 			params.put("name", name);
 			params.put("sign", sign);
 			params.put("email", email);
@@ -89,6 +83,15 @@ public class FileUploadController {
 
 	}
 
+	/**
+	 * 
+	 * @param param
+	 * @param files1
+	 * @param files2
+	 * @param result
+	 * @return
+	 * @throws ControllerException
+	 */
 	@ResponseBody
 	@FileUpload(digest=true)
 	@RequestMapping(value = "/fileUp1", method = RequestMethod.POST)
@@ -98,12 +101,12 @@ public class FileUploadController {
 			List<FileSaveResult> list1 = result.getGroup("files1");
 			List<FileSaveResult> list2 = result.getGroup("files2");
 			
-			Map<String, Object> res = Maps.newHashMap();
+			Map<String, Object> res = new HashMap<>();
 			log.debug("-------------------name:  " + param.getName() + "------------");
 			log.debug("-------------------sign:  " + param.getSign() + "------------");
 			log.debug("-------------------email:  " + param.getEmail() + "------------");
 			log.debug("-------------------password:  " + param.getPassword() + "------------");
-			Map<String, String> params = Maps.newHashMap();
+			Map<String, String> params = new HashMap<>();
 			params.put("name", param.getName());
 			params.put("sign", param.getSign());
 			params.put("email", param.getEmail());
@@ -125,7 +128,11 @@ public class FileUploadController {
 		}
 	}
 
-	
+	/**
+	 * 
+	 * @param fileId
+	 * @throws ControllerException
+	 */
 	@RequestMapping(value = "/download/{fileId}", method = RequestMethod.GET)
 	public void download(@PathVariable("fileId") String fileId) throws ControllerException {
 		String dirPath = fileSaveDir + File.separator + fileId;

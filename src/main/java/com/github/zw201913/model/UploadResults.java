@@ -1,13 +1,13 @@
 package com.github.zw201913.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Maps;
 
 public class UploadResults {
 
-	private Map<String, List<FileSaveResult>> resultMap = Maps.newHashMap();
+	private Map<String, List<FileSaveResult>> resultMap = new HashMap<>();
 
 	/**
 	 * 分组数量

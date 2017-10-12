@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -16,8 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.github.zw201913.annotation.FileUpload;
 import com.github.zw201913.common.ServiceException;
 import com.github.zw201913.enumeration.ExceptionType;
@@ -31,11 +31,10 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class FileAspect {
-	
+
 	@Value("${fileSaveDir}")
 	private String fileSaveDir;
 
-	
 	public Object upload(ProceedingJoinPoint pjp) throws Throwable {
 		log.debug("检查文件");
 		boolean autoSave = false;// 是否启用自动保存
@@ -53,7 +52,7 @@ public class FileAspect {
 		}
 		Parameter[] ps = targetMethod.getParameters();
 		Object[] objs = pjp.getArgs();
-		Map<String, FileObj> fileMaps = Maps.newHashMap();
+		Map<String, FileObj> fileMaps = new HashMap<>();
 		for (int i = 0; i < ps.length; i++) {
 			Parameter p = ps[i];
 			if ((p.isAnnotationPresent(FileUpload.class) && p.getDeclaredAnnotation(FileUpload.class).autoSave())
@@ -108,7 +107,7 @@ public class FileAspect {
 	 */
 	private List<FileSaveResult> saveMultipartFiles(String key, MultipartFile[] files, boolean digest)
 			throws ServiceException {
-		List<FileSaveResult> res = Lists.newArrayList();
+		List<FileSaveResult> res = new ArrayList<>();
 		try {
 			for (int i = 0; i < files.length; i++) {
 				MultipartFile file = files[i];
@@ -148,7 +147,7 @@ public class FileAspect {
 	 */
 	private List<FileSaveResult> saveMultipartFile(String key, MultipartFile file, boolean digest)
 			throws ServiceException {
-		List<FileSaveResult> res = Lists.newArrayList();
+		List<FileSaveResult> res = new ArrayList<>();
 		try {
 			String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 			String originalFileName = file.getOriginalFilename();
@@ -160,7 +159,8 @@ public class FileAspect {
 				fileName = fileSaveDir + File.separator + uuid + File.separator + uuid + file_suffix;
 			}
 			inputStream = file.getInputStream();
-			File targetFile = saveFileFromInputStream(inputStream, fileSaveDir + File.separator + uuid, fileName, digest);
+			File targetFile = saveFileFromInputStream(inputStream, fileSaveDir + File.separator + uuid, fileName,
+					digest);
 			FileSaveResult result = new FileSaveResult();
 			result.setId(uuid);
 			result.setIdIsDigest(digest);
