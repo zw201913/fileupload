@@ -230,11 +230,7 @@ $(function(){
 		  form.append("files2", $("#file2")[0].files[0]);    
 		  form.append("files2", $("#file2")[0].files[0]);
 
-		  /* baseRequestFunc('POST',form,"http://localhost:18080/toffee-management/fileUpload/bigfileUp1",true,false,'json',false,function(){
-			  
-		  },null,function(){
-			  
-		  }) */
+		  
 		  
 		 $.ajax({
 		    url: "http://localhost:18080/fileupload/fileUpload/fileUp1",
@@ -358,7 +354,7 @@ $(function(){
     			  
     			  
     			  $.ajax({
-                      url: "http://localhost:18080/toffee-management/fileUpload/getFileIndex",
+                      url: "http://localhost:18080/fileupload/getFileIndex",
                       type: "GET",
                       data: params,
                       contentType: "application/x-www-form-urlencoded",
