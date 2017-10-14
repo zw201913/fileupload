@@ -2,7 +2,13 @@
 文件上传组件
 
 下载fileupload-0.0.1-20171012.092803-7.jar包放到你的项目中
-(以后会提供maven的方式，目前只能手动下载该jar包)
+或通过maven管理
+<dependency>
+    <groupId>com.github.zw201913</groupId>
+    <artifactId>fileupload</artifactId>
+    <version>1.0.0</version>
+</dependency>
+
 
 
 1. 只需要使用@FileUpload这个注解，就可以完成文件的上传存储。
@@ -37,4 +43,6 @@
         </aop:aspect>
         </aop:config>
 	
+
+
 
